@@ -1,4 +1,5 @@
-"use client"
+// prettier-ignore
+'use client'
 
 import { Button } from "@/components/ui/button"
 import {
@@ -10,19 +11,23 @@ import {
 } from "@/components/ui/card"
 import { createClient } from "@/utils/supabase/client"
 
+import { useRouter } from "next/navigation"
+
 export function LoginForm() {
+    const router = useRouter()
     const supabase = createClient()
 
-    const googleSignIn = () => {
-        supabase.auth.signInWithOAuth({
+    const googleSignIn = async () => {
+        await supabase.auth.signInWithOAuth({
             provider: "google",
             options: {
                 queryParams: {
                     prompt: "select_account",
                 },
-                redirectTo: `http://localhost:3000/dashboard`,
+                redirectTo: "http://localhost:3000/dashboard",
             },
         })
+        // router.push("/dashboard")
     }
 
     return (
@@ -38,7 +43,7 @@ export function LoginForm() {
                             <Button
                                 variant="outline"
                                 className="w-full"
-                                formAction={googleSignIn}
+                                onClick={async () => await googleSignIn()}
                             >
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"

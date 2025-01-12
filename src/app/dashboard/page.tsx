@@ -1,19 +1,14 @@
-"use client"
+import { redirect } from "next/navigation"
 
-import { Button } from "@/components/ui/button"
-import { createClient } from "@/utils/supabase/client"
+import { createClient } from "@/utils/supabase/server"
 
-const Dashboard = () => {
-    const supabase = createClient()
-    const handleSignOut = () => {
-        supabase.auth.signOut()
-    }
-    return (
-        <>
-            Dashboard, Protected{" "}
-            <Button onClick={handleSignOut}>Sign Out</Button>
-        </>
-    )
+export default async function Dashboard() {
+    const supabase = await createClient()
+
+    const { data, error } = await supabase.auth.getUser()
+    // if (error || !data?.user) {
+    //     redirect("/login")
+    // }
+
+    return <p>Hello {data.user.email}</p>
 }
-
-export default Dashboard
