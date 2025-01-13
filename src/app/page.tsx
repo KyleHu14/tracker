@@ -1,3 +1,7 @@
 export default function Home() {
-    return <main>hi</main>
+    return (
+        <main className="flex flex-col items-center justify-center py-10">
+            hi
+        </main>
+    )
 }
