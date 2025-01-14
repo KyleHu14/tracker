@@ -15,6 +15,13 @@
       "when": 1736750343360,
       "tag": "0001_orange_red_skull",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1736800272397,
+      "tag": "0002_loose_paladin",
+      "breakpoints": true
     }
   ]
 }
