@@ -19,7 +19,7 @@ export default function AddButton({ className }: Props) {
             <DialogTrigger className={className} asChild>
                 <Button>Add</Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-h-[75%] sm:max-w-[425px]">
+            <DialogContent className="max-h-[98%] sm:max-w-[425px]">
                 <DialogHeader>
                     <DialogTitle>Add an Application</DialogTitle>
                     <DialogDescription>
@@ -27,7 +27,9 @@ export default function AddButton({ className }: Props) {
                         below.
                     </DialogDescription>
                 </DialogHeader>
-                <JobAppForm />
+                <div className="flex-1 overflow-y-auto px-2">
+                    <JobAppForm />
+                </div>
             </DialogContent>
         </Dialog>
     )
