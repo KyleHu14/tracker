@@ -2,7 +2,6 @@
 
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
-import { z } from "zod"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -15,39 +14,15 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import StatusSelector from "./StatusSelector"
-
-const FormSchema = z.object({
-    title: z
-        .string()
-        .min(2, { message: "Title must be at least 2 characters." })
-        .nonempty({ message: "Title is required." }),
-    company: z
-        .string()
-        .min(2, { message: "Company name must be at least 2 characters." })
-        .nonempty({ message: "Company is required." }),
-    location: z
-        .string()
-        .min(2, { message: "Location must be at least 2 characters." })
-        .nonempty({ message: "Location is required." }),
-    status: z.enum([
-        "pending",
-        "interview",
-        "rejected",
-        "assessment",
-        "ghosted",
-        "offer",
-        "accepted",
-    ]),
-    link: z
-        .string()
-        .url({ message: "Link must be a valid URL." })
-        .or(z.literal("")),
-    date: z.string().date().nonempty({ message: "Must have a date" }),
-})
+import { JobAppFormData, JobAppFormSchema } from "./JobAppSchema"
+import { createJobApp } from "@/actions"
+import { useSession } from "@/lib/auth-client"
 
 export default function JobAppForm() {
-    const form = useForm<z.infer<typeof FormSchema>>({
-        resolver: zodResolver(FormSchema),
+    const session = useSession()
+
+    const form = useForm<JobAppFormData>({
+        resolver: zodResolver(JobAppFormSchema),
         defaultValues: {
             title: "",
             company: "",
@@ -58,8 +33,10 @@ export default function JobAppForm() {
         },
     })
 
-    function onSubmit(data: z.infer<typeof FormSchema>) {
-        console.log(data)
+    function onSubmit(data: JobAppFormData) {
+        if (session.data) {
+            createJobApp(data, session.data?.user.id)
+        }
     }
 
     return (

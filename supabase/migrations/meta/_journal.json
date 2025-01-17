@@ -5,29 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1736749463087,
-      "tag": "0000_nice_madame_hydra",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1736750343360,
-      "tag": "0001_orange_red_skull",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1736800272397,
-      "tag": "0002_loose_paladin",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "7",
-      "when": 1736923301239,
-      "tag": "0003_short_barracuda",
+      "when": 1737064061340,
+      "tag": "0000_aspiring_revanche",
       "breakpoints": true
     }
   ]

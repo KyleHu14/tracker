@@ -1,9 +1,9 @@
-import { pgTable, text, timestamp } from "drizzle-orm/pg-core"
+import { pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core"
 
 import { user } from "./auth"
 
 export const job_application = pgTable("job_application", {
-    id: text("id").primaryKey(),
+    id: uuid("id").defaultRandom().primaryKey(),
     title: text("title").notNull(),
     company: text("company").notNull(),
     location: text("location").notNull(),
@@ -24,3 +24,4 @@ export const job_application = pgTable("job_application", {
         .notNull()
         .references(() => user.id),
 })
+export type InsertJobApp = typeof job_application.$inferInsert

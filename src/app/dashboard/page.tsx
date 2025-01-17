@@ -1,5 +1,4 @@
 import PageWrapper from "@/components/PageWrapper"
-import { Button } from "@/components/ui/button"
 import { DataTable } from "../../components/DataTable/data-table"
 import { columns, JobApplication } from "../../components/DataTable/columns"
 import AddButton from "@/components/ModalButtons/AddButton"
