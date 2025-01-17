@@ -5,7 +5,12 @@ import { JobAppFormData } from "@/components/ModalButtons/JobAppSchema"
 import { revalidatePath } from "next/cache"
 import { db } from "@/db"
 
-import { InsertJobApp, job_application } from "@/db/schema/job-application"
+import {
+    InsertJobApp,
+    SelectJobApp,
+    job_application,
+} from "@/db/schema/job-application"
+import { eq } from "drizzle-orm"
 
 export async function createJobApp(formData: JobAppFormData, userId: string) {
     const newJobApp: InsertJobApp = {
@@ -22,6 +27,11 @@ export async function createJobApp(formData: JobAppFormData, userId: string) {
     revalidatePath("/dashboard")
 }
 
-export async function getJobApps() {
-    const data = await db.select().from(insertJobApp)
+export async function getUserJobApps(userId: string): Promise<SelectJobApp[]> {
+    const data = await db
+        .select()
+        .from(job_application)
+        .where(eq(job_application.userId, userId))
+
+    return data
 }

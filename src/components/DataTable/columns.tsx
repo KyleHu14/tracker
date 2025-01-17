@@ -1,21 +1,14 @@
 "use client"
 
 import { ColumnDef } from "@tanstack/react-table"
+import { SelectJobApp } from "@/db/schema/job-application"
 import TableCellActions from "./TableCellActions"
 import Link from "next/link"
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
-export type JobApplication = {
-    id: string
-    title: string
-    location: string
-    status: "pending" | "interview" | "offer" | "rejected" | "ghosted"
-    date: string
-    link: string
-}
 
-export const columns: ColumnDef<JobApplication>[] = [
+export const columns: ColumnDef<SelectJobApp>[] = [
     {
         accessorKey: "title",
         header: "Role Title",
@@ -42,10 +35,13 @@ export const columns: ColumnDef<JobApplication>[] = [
     {
         accessorKey: "date",
         header: "Date",
+        cell: ({ row }) => {
+            return <div>{row.original.date.toLocaleDateString("en-US")}</div>
+        },
     },
     {
         id: "actions",
-        cell: ({ row }) => {
+        cell: () => {
             return <TableCellActions />
         },
     },
