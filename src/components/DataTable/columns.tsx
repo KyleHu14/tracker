@@ -4,6 +4,9 @@ import { ColumnDef } from "@tanstack/react-table"
 import { SelectJobApp } from "@/db/schema/job-application"
 import TableCellActions from "./TableCellActions"
 import Link from "next/link"
+import Text from "./Text"
+import { Button } from "../ui/button"
+import { ArrowUpDown } from "lucide-react"
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -13,12 +16,19 @@ export const columns: ColumnDef<SelectJobApp>[] = [
         accessorKey: "title",
         header: "Role Title",
         cell: ({ row }) => {
-            return <Link href={row.original.link}>{row.original.title}</Link>
+            return (
+                <Link href={row.original.link}>
+                    <Text>{row.original.title}</Text>
+                </Link>
+            )
         },
     },
     {
         accessorKey: "location",
         header: "Location",
+        cell: ({ row }) => {
+            return <Text>{row.original.location}</Text>
+        },
     },
     {
         accessorKey: "status",
@@ -34,15 +44,27 @@ export const columns: ColumnDef<SelectJobApp>[] = [
     },
     {
         accessorKey: "date",
-        header: "Date",
+        header: ({ column }) => {
+            return (
+                <Button
+                    variant="ghost"
+                    onClick={() =>
+                        column.toggleSorting(column.getIsSorted() === "asc")
+                    }
+                >
+                    Email
+                    <ArrowUpDown className="ml-2 h-4 w-4" />
+                </Button>
+            )
+        },
         cell: ({ row }) => {
             return <div>{row.original.date.toLocaleDateString("en-US")}</div>
         },
     },
     {
         id: "actions",
-        cell: () => {
-            return <TableCellActions />
+        cell: ({ row }) => {
+            return <TableCellActions jobData={row.original} />
         },
     },
 ]

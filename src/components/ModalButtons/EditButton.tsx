@@ -11,10 +11,6 @@ import {
     DialogClose,
 } from "@/components/ui/dialog"
 
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-
-import { Button } from "@/components/ui/button"
 import {
     Form,
     FormControl,
@@ -23,54 +19,60 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import StatusSelector from "./StatusSelector"
-import { JobAppFormData, JobAppFormSchema } from "./JobAppSchema"
-import { createJobApp } from "@/actions"
-import { useSession } from "@/lib/auth-client"
 
+import { SelectJobApp } from "@/db/schema/job-application"
+import { Button } from "../ui/button"
+
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form"
+import { JobAppFormData, JobAppFormSchema } from "./JobAppSchema"
+import { Input } from "../ui/input"
+import StatusSelector from "./StatusSelector"
+
+import { updateJobApps } from "@/actions"
 interface Props {
-    className?: string
+    jobData: SelectJobApp
 }
 
-export default function AddButton({ className }: Props) {
-    const session = useSession()
-
+export default function EditButton({ jobData }: Props) {
     const form = useForm<JobAppFormData>({
         resolver: zodResolver(JobAppFormSchema),
         defaultValues: {
-            title: "",
-            company: "",
-            location: "",
-            status: "pending",
-            link: "",
-            date: "",
+            title: jobData.title,
+            company: jobData.company,
+            location: jobData.location,
+            status: jobData.status,
+            link: jobData.link,
+            date: jobData.date.toLocaleDateString("en-CA"),
         },
     })
 
     function onSubmit(data: JobAppFormData) {
-        if (session.data) {
-            createJobApp(data, session.data?.user.id)
-        }
-    }
+        // console.log(updateData)
 
+        updateJobApps(data, jobData.id, jobData.userId)
+    }
     return (
         <Dialog>
-            <DialogTrigger className={className} asChild>
-                <Button>Add</Button>
+            <DialogTrigger asChild>
+                <p className="w-full cursor-pointer">Edit</p>
             </DialogTrigger>
-            <DialogContent className="max-h-[98%] sm:max-w-[425px]">
+            <DialogContent
+                className="max-h-[98%] sm:max-w-[425px]"
+                onClick={(e) => e.stopPropagation()}
+                onKeyDown={(e) => e.stopPropagation()}
+                onPointerMove={(e) => e.stopPropagation()}
+            >
                 <DialogHeader>
-                    <DialogTitle>Add an Application</DialogTitle>
+                    <DialogTitle>Edit</DialogTitle>
                     <DialogDescription>
-                        Track a job application by filling out its information
-                        below.
+                        Edit an existing Job Application
                     </DialogDescription>
                 </DialogHeader>
                 <div className="overflow-y-auto p-3">
                     <Form {...form}>
                         <form
-                            id="add-job-form"
+                            id="edit-job-form"
                             onSubmit={form.handleSubmit(onSubmit)}
                             className="space-y-6"
                         >
@@ -185,8 +187,8 @@ export default function AddButton({ className }: Props) {
                 </div>
                 <DialogFooter>
                     <DialogClose asChild>
-                        <Button form="add-job-form" type="submit">
-                            Submit
+                        <Button form="edit-job-form" type="submit">
+                            Edit
                         </Button>
                     </DialogClose>
                 </DialogFooter>

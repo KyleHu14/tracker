@@ -6,6 +6,8 @@ import {
     getCoreRowModel,
     useReactTable,
     getPaginationRowModel,
+    SortingState,
+    getSortedRowModel,
 } from "@tanstack/react-table"
 
 import {
@@ -17,6 +19,7 @@ import {
     TableRow,
 } from "@/components/ui/table"
 import { Button } from "@/components/ui/button"
+import { useState } from "react"
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
@@ -29,12 +32,27 @@ export function DataTable<TData, TValue>({
     data,
     className,
 }: DataTableProps<TData, TValue>) {
+    const [sorting, setSorting] = useState<SortingState>([])
+
     const table = useReactTable({
         data,
         columns,
         getCoreRowModel: getCoreRowModel(),
         getPaginationRowModel: getPaginationRowModel(),
-        initialState: { pagination: { pageSize: 7 } },
+        onSortingChange: setSorting,
+        getSortedRowModel: getSortedRowModel(),
+        state: {
+            sorting,
+        },
+        initialState: {
+            pagination: { pageSize: 7 },
+            sorting: [
+                {
+                    id: "date",
+                    desc: true, // sort by name in descending order by default
+                },
+            ],
+        },
     })
 
     return (
