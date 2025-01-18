@@ -10,7 +10,8 @@ interface Props {
 
 export default function SignInButton({ children, className }: Props) {
     const signInGoogle = async () => {
-        const data = await signIn.social({
+        // const data
+        await signIn.social({
             provider: "google",
             callbackURL: "/dashboard",
         })
