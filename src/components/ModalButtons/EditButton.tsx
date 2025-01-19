@@ -8,7 +8,6 @@ import {
     DialogTitle,
     DialogTrigger,
     DialogFooter,
-    DialogClose,
 } from "@/components/ui/dialog"
 
 import {
@@ -30,11 +29,13 @@ import { Input } from "../ui/input"
 import StatusSelector from "./StatusSelector"
 
 import { updateJobApps } from "@/actions"
+import { useState } from "react"
 interface Props {
     jobData: SelectJobApp
 }
 
 export default function EditButton({ jobData }: Props) {
+    const [open, setOpen] = useState(false)
     const form = useForm<JobAppFormData>({
         resolver: zodResolver(JobAppFormSchema),
         defaultValues: {
@@ -48,12 +49,15 @@ export default function EditButton({ jobData }: Props) {
     })
 
     function onSubmit(data: JobAppFormData) {
-        // console.log(updateData)
-
-        updateJobApps(data, jobData.id, jobData.userId)
+        if (form.formState.isValid) {
+            updateJobApps(data, jobData.id, jobData.userId)
+            setOpen(false)
+            form.clearErrors()
+            form.reset()
+        }
     }
     return (
-        <Dialog>
+        <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
                 <p className="w-full cursor-pointer">Edit</p>
             </DialogTrigger>
@@ -173,6 +177,7 @@ export default function EditButton({ jobData }: Props) {
                                         <FormLabel>Link</FormLabel>
                                         <FormControl>
                                             <Input
+                                                type="url"
                                                 placeholder="jobboard.com"
                                                 {...field}
                                             />
@@ -186,11 +191,9 @@ export default function EditButton({ jobData }: Props) {
                     </Form>
                 </div>
                 <DialogFooter>
-                    <DialogClose asChild>
-                        <Button form="edit-job-form" type="submit">
-                            Edit
-                        </Button>
-                    </DialogClose>
+                    <Button form="edit-job-form" type="submit">
+                        Edit
+                    </Button>
                 </DialogFooter>
             </DialogContent>
         </Dialog>

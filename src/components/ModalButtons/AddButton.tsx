@@ -8,7 +8,6 @@ import {
     DialogTitle,
     DialogTrigger,
     DialogFooter,
-    DialogClose,
 } from "@/components/ui/dialog"
 
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -28,12 +27,14 @@ import StatusSelector from "./StatusSelector"
 import { JobAppFormData, JobAppFormSchema } from "./JobAppSchema"
 import { createJobApp } from "@/actions"
 import { useSession } from "@/lib/auth-client"
+import { useState } from "react"
 
 interface Props {
     className?: string
 }
 
 export default function AddButton({ className }: Props) {
+    const [open, setOpen] = useState(false)
     const session = useSession()
 
     const form = useForm<JobAppFormData>({
@@ -49,13 +50,16 @@ export default function AddButton({ className }: Props) {
     })
 
     function onSubmit(data: JobAppFormData) {
-        if (session.data) {
+        if (session.data && form.formState.isValid) {
             createJobApp(data, session.data?.user.id)
+            setOpen(false)
+            form.clearErrors()
+            form.reset()
         }
     }
 
     return (
-        <Dialog>
+        <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger className={className} asChild>
                 <Button>Add</Button>
             </DialogTrigger>
@@ -171,6 +175,7 @@ export default function AddButton({ className }: Props) {
                                         <FormLabel>Link</FormLabel>
                                         <FormControl>
                                             <Input
+                                                // type="url"
                                                 placeholder="jobboard.com"
                                                 {...field}
                                             />
@@ -184,11 +189,9 @@ export default function AddButton({ className }: Props) {
                     </Form>
                 </div>
                 <DialogFooter>
-                    <DialogClose asChild>
-                        <Button form="add-job-form" type="submit">
-                            Submit
-                        </Button>
-                    </DialogClose>
+                    <Button form="add-job-form" type="submit">
+                        Submit
+                    </Button>
                 </DialogFooter>
             </DialogContent>
         </Dialog>

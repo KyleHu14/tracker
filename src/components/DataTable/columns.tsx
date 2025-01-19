@@ -24,6 +24,10 @@ export const columns: ColumnDef<SelectJobApp>[] = [
         },
     },
     {
+        accessorKey: "company",
+        header: "Company",
+    },
+    {
         accessorKey: "location",
         header: "Location",
         cell: ({ row }) => {
@@ -52,7 +56,7 @@ export const columns: ColumnDef<SelectJobApp>[] = [
                         column.toggleSorting(column.getIsSorted() === "asc")
                     }
                 >
-                    Email
+                    Date
                     <ArrowUpDown className="ml-2 h-4 w-4" />
                 </Button>
             )
@@ -63,6 +67,7 @@ export const columns: ColumnDef<SelectJobApp>[] = [
     },
     {
         id: "actions",
+        header: "Actions",
         cell: ({ row }) => {
             return <TableCellActions jobData={row.original} />
         },
