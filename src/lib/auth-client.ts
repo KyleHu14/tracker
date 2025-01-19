@@ -1,6 +1,6 @@
 import { createAuthClient } from "better-auth/react"
 
-if (process.env.NEXT_PUBLIC_BASE_URL) {
+if (!process.env.NEXT_PUBLIC_BASE_URL) {
     throw Error("BASE URL DOES NOT EXIST")
 }
 
