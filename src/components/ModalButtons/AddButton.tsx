@@ -49,7 +49,8 @@ export default function AddButton({ className }: Props) {
         },
     })
 
-    function onSubmit(data: JobAppFormData) {
+    async function onSubmit(data: JobAppFormData) {
+        await form.trigger()
         if (session.data && form.formState.isValid) {
             createJobApp(data, session.data?.user.id)
             setOpen(false)
@@ -175,7 +176,7 @@ export default function AddButton({ className }: Props) {
                                         <FormLabel>Link</FormLabel>
                                         <FormControl>
                                             <Input
-                                                // type="url"
+                                                type="url"
                                                 placeholder="jobboard.com"
                                                 {...field}
                                             />

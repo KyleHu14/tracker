@@ -21,7 +21,7 @@ export default async function Navbar() {
     })
 
     return (
-        <nav className="sticky top-0 flex items-center justify-between border-b border-b-gray-800 px-[20%] py-4">
+        <nav className="sticky top-0 flex items-center justify-between border-b border-b-gray-800 bg-background px-[20%] py-4">
             <Link className="text-xl font-semibold" href="/">
                 Tracker
             </Link>

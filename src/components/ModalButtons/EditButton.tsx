@@ -48,7 +48,8 @@ export default function EditButton({ jobData }: Props) {
         },
     })
 
-    function onSubmit(data: JobAppFormData) {
+    async function onSubmit(data: JobAppFormData) {
+        await form.trigger()
         if (form.formState.isValid) {
             updateJobApps(data, jobData.id, jobData.userId)
             setOpen(false)
