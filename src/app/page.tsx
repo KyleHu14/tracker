@@ -8,7 +8,7 @@ import PageWrapper from "@/components/PageWrapper"
 
 export default function Home() {
     return (
-        <PageWrapper className="flex h-[70vh] flex-col items-center justify-center gap-6 bg-background p-6 md:p-10">
+        <PageWrapper className="flex h-[70svh] flex-col items-center justify-center gap-6 bg-background p-6 md:p-10">
             <div className="flex w-full max-w-sm flex-col justify-center gap-6">
                 <Link
                     href="/"

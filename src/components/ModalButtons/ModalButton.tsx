@@ -28,24 +28,34 @@ import { JobAppFormData, JobAppFormSchema } from "./JobAppSchema"
 import { createJobApp } from "@/actions"
 import { useSession } from "@/lib/auth-client"
 import { useState } from "react"
+import { SelectJobApp } from "@/db/schema/job-application"
 
 interface Props {
     className?: string
+    initialData: SelectJobApp
+    variant: "edit" | "add"
 }
 
-export default function AddButton({ className }: Props) {
+export default function ModalButton({
+    className,
+    initialData,
+    // variant,
+}: Props) {
     const [open, setOpen] = useState(false)
+
+    // const formText = {"edit" : {}, }
+
     const session = useSession()
 
     const form = useForm<JobAppFormData>({
         resolver: zodResolver(JobAppFormSchema),
         defaultValues: {
-            title: "",
-            company: "",
-            location: "",
-            status: "pending",
-            link: "",
-            date: "",
+            title: initialData.title,
+            company: initialData.company,
+            location: initialData.location,
+            status: initialData.status,
+            link: initialData.link,
+            date: initialData.date.toLocaleDateString("en-CA"),
         },
     })
 

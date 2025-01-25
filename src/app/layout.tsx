@@ -1,3 +1,5 @@
+import { SpeedInsights } from "@vercel/speed-insights/next"
+
 import { ThemeProvider } from "@/components/ThemeProvider"
 import Navbar from "@/components/Navbar"
 
@@ -39,6 +41,7 @@ export default function RootLayout({
                 >
                     <Navbar />
                     {children}
+                    <SpeedInsights />
                 </ThemeProvider>
             </body>
         </html>
