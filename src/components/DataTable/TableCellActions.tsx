@@ -14,7 +14,7 @@ import { SelectJobApp } from "@/db/schema/job-application"
 
 import { deleteJobApp } from "@/actions"
 
-import EditButton from "../ModalButtons/EditButton"
+import ModalButton from "../ModalButtons/ModalButton"
 
 interface Props {
     jobData: SelectJobApp
@@ -32,7 +32,7 @@ export default function TableCellActions({ jobData }: Props) {
                 <DropdownMenuSeparator />
 
                 <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                    <EditButton jobData={jobData} />
+                    <ModalButton variant="edit" initialData={jobData} />
                 </DropdownMenuItem>
 
                 <DropdownMenuItem>

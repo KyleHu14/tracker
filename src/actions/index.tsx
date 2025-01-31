@@ -21,6 +21,7 @@ function generateDate(dateString: string): Date {
 
     return finalDate
 }
+
 export async function createJobApp(formData: JobAppFormData, userId: string) {
     const newJobApp: InsertJobApp = {
         title: formData.title,
@@ -29,12 +30,23 @@ export async function createJobApp(formData: JobAppFormData, userId: string) {
         status: formData.status,
         date: generateDate(formData.date),
         link: formData.link,
+        notes: formData.notes,
         userId: userId,
     }
 
     await db.insert(job_application).values(newJobApp)
 
     revalidatePath("/dashboard")
+}
+
+export async function getJobApp(jobId: string): Promise<SelectJobApp> {
+    const data = await db
+        .select()
+        .from(job_application)
+        .where(eq(job_application.id, jobId))
+        .limit(1)
+
+    return data[0]
 }
 
 export async function deleteJobApp(id: string) {
@@ -64,6 +76,7 @@ export async function updateJobApps(
         company: formData.company,
         location: formData.location,
         status: formData.status,
+        notes: formData.notes,
         link: formData.link,
     }
 

@@ -23,6 +23,7 @@ export const job_application = pgTable("job_application", {
     userId: text("user_id")
         .notNull()
         .references(() => user.id),
+    notes: text("notes"),
 })
 export type InsertJobApp = typeof job_application.$inferInsert
 export type SelectJobApp = typeof job_application.$inferSelect

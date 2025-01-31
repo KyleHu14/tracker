@@ -13,6 +13,8 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 
+import { useToast } from "@/hooks/use-toast"
+
 import { Button } from "@/components/ui/button"
 import {
     Form,
@@ -25,45 +27,81 @@ import {
 import { Input } from "@/components/ui/input"
 import StatusSelector from "./StatusSelector"
 import { JobAppFormData, JobAppFormSchema } from "./JobAppSchema"
-import { createJobApp } from "@/actions"
+import { createJobApp, updateJobApps } from "@/actions"
 import { useSession } from "@/lib/auth-client"
 import { useState } from "react"
 import { SelectJobApp } from "@/db/schema/job-application"
 
+import { Loader } from "lucide-react"
+import { Textarea } from "../ui/textarea"
+
 interface Props {
     className?: string
-    initialData: SelectJobApp
+    initialData?: SelectJobApp
     variant: "edit" | "add"
 }
 
 export default function ModalButton({
     className,
     initialData,
-    // variant,
+    variant,
 }: Props) {
+    const { toast } = useToast()
+    const [isLoading, setLoading] = useState(false)
     const [open, setOpen] = useState(false)
 
-    // const formText = {"edit" : {}, }
+    const formText = {
+        edit: {
+            title: "Edit",
+            description: "Edit an existing Job Application",
+            triggerText: "Edit",
+            submitText: "Save Changes",
+            toastText: "Changes saved!",
+        },
+        add: {
+            title: "Add a Job Application",
+            description:
+                "Track a job application by filling out its information below.",
+            triggerText: "Add",
+            submitText: "Create",
+            toastText: "Created a job application!",
+        },
+    }
 
     const session = useSession()
 
     const form = useForm<JobAppFormData>({
         resolver: zodResolver(JobAppFormSchema),
         defaultValues: {
-            title: initialData.title,
-            company: initialData.company,
-            location: initialData.location,
-            status: initialData.status,
-            link: initialData.link,
-            date: initialData.date.toLocaleDateString("en-CA"),
+            title: initialData?.title || "",
+            company: initialData?.company || "",
+            location: initialData?.location || "",
+            status: initialData?.status || "pending",
+            link: initialData?.link || "",
+            date:
+                initialData?.date.toLocaleDateString("en-CA") ||
+                new Date().toLocaleDateString("en-CA"),
+            notes: initialData?.notes || "",
         },
     })
 
     async function onSubmit(data: JobAppFormData) {
         await form.trigger()
         if (session.data && form.formState.isValid) {
-            createJobApp(data, session.data?.user.id)
+            // prettier-ignore
+            setLoading(true)
+            if (variant === "add") {
+                await createJobApp(data, session.data?.user.id)
+            } else if (initialData) {
+                await updateJobApps(data, initialData.id, initialData.userId)
+            }
+
+            setLoading(false)
             setOpen(false)
+            toast({
+                // title: "Success!",
+                description: formText[variant].toastText,
+            })
             form.clearErrors()
             form.reset()
         }
@@ -72,14 +110,24 @@ export default function ModalButton({
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger className={className} asChild>
-                <Button>Add</Button>
+                {variant === "add" ? (
+                    <Button>{formText[variant].triggerText}</Button>
+                ) : (
+                    <p className="w-full cursor-pointer">
+                        {formText[variant].triggerText}
+                    </p>
+                )}
             </DialogTrigger>
-            <DialogContent className="max-h-[98%] sm:max-w-[425px]">
+            <DialogContent
+                className="max-h-[98%] sm:max-w-[425px]"
+                onClick={(e) => e.stopPropagation()}
+                onKeyDown={(e) => e.stopPropagation()}
+                onPointerMove={(e) => e.stopPropagation()}
+            >
                 <DialogHeader>
-                    <DialogTitle>Add an Application</DialogTitle>
+                    <DialogTitle>{formText[variant].title}</DialogTitle>
                     <DialogDescription>
-                        Track a job application by filling out its information
-                        below.
+                        {formText[variant].description}
                     </DialogDescription>
                 </DialogHeader>
                 <div className="overflow-y-auto p-3">
@@ -131,7 +179,9 @@ export default function ModalButton({
                                     name="location"
                                     render={({ field }) => (
                                         <FormItem>
-                                            <FormLabel>Location</FormLabel>
+                                            <FormLabel>
+                                                Office Location
+                                            </FormLabel>
                                             <FormControl>
                                                 <Input
                                                     required
@@ -199,12 +249,33 @@ export default function ModalButton({
                                     </FormItem>
                                 )}
                             />
+
+                            <FormField
+                                control={form.control}
+                                name="notes"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Notes</FormLabel>
+                                        <FormControl>
+                                            <Textarea
+                                                placeholder="Notes, login info, anything!"
+                                                {...field}
+                                            />
+                                        </FormControl>
+
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
                         </form>
                     </Form>
                 </div>
                 <DialogFooter>
                     <Button form="add-job-form" type="submit">
-                        Submit
+                        {formText[variant].submitText}
+                        {isLoading && (
+                            <Loader className="h-12 w-12 animate-spin" />
+                        )}
                     </Button>
                 </DialogFooter>
             </DialogContent>

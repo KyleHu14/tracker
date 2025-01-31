@@ -50,6 +50,9 @@ export default {
                     "4": "hsl(var(--chart-4))",
                     "5": "hsl(var(--chart-5))",
                 },
+                selected: {
+                    DEFAULT: "hsl(var(--selected))",
+                },
             },
             borderRadius: {
                 lg: "var(--radius)",

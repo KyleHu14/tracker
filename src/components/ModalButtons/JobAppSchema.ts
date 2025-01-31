@@ -24,5 +24,6 @@ export const JobAppFormSchema = z.object({
     ]),
     link: z.string().url("Must be a valid URL").or(z.literal("")),
     date: z.string().date().nonempty({ message: "Must have a date" }),
+    notes: z.string(),
 })
 export type JobAppFormData = z.infer<typeof JobAppFormSchema>

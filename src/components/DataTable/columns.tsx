@@ -3,13 +3,11 @@
 import { ColumnDef } from "@tanstack/react-table"
 import { SelectJobApp } from "@/db/schema/job-application"
 import TableCellActions from "./TableCellActions"
-import Link from "next/link"
-import Text from "./Text"
 import { Button } from "../ui/button"
 import { ArrowUpDown } from "lucide-react"
+import Link from "next/link"
 
-// This type is used to define the shape of our data.
-// You can use a Zod schema here if you want.
+const baseUrl = "/dashboard/jobapp/"
 
 export const columns: ColumnDef<SelectJobApp>[] = [
     {
@@ -17,8 +15,11 @@ export const columns: ColumnDef<SelectJobApp>[] = [
         header: "Role Title",
         cell: ({ row }) => {
             return (
-                <Link href={row.original.link}>
-                    <Text>{row.original.title}</Text>
+                <Link
+                    href={`${baseUrl}${row.original.id}`}
+                    className="-mx-4 -my-4 block px-4 py-4"
+                >
+                    {row.original.title}
                 </Link>
             )
         },
@@ -26,12 +27,29 @@ export const columns: ColumnDef<SelectJobApp>[] = [
     {
         accessorKey: "company",
         header: "Company",
+        cell: ({ row }) => {
+            return (
+                <Link
+                    href={`${baseUrl}${row.original.id}`}
+                    className="-mx-4 -my-4 block px-4 py-4"
+                >
+                    {row.original.company}
+                </Link>
+            )
+        },
     },
     {
         accessorKey: "location",
         header: "Location",
         cell: ({ row }) => {
-            return <Text>{row.original.location}</Text>
+            return (
+                <Link
+                    href={`${baseUrl}${row.original.id}`}
+                    className="-mx-4 -my-4 block px-4 py-4"
+                >
+                    {row.original.location}
+                </Link>
+            )
         },
     },
     {
@@ -39,10 +57,13 @@ export const columns: ColumnDef<SelectJobApp>[] = [
         header: "Status",
         cell: ({ row }) => {
             return (
-                <div>
+                <Link
+                    href={`${baseUrl}${row.original.id}`}
+                    className="-mx-4 -my-4 block px-4 py-4"
+                >
                     {String(row.original.status).charAt(0).toUpperCase() +
                         String(row.original.status).slice(1)}
-                </div>
+                </Link>
             )
         },
     },
@@ -51,6 +72,7 @@ export const columns: ColumnDef<SelectJobApp>[] = [
         header: ({ column }) => {
             return (
                 <Button
+                    className="m-0 p-0 py-0 text-left"
                     variant="ghost"
                     onClick={() =>
                         column.toggleSorting(column.getIsSorted() === "asc")
@@ -62,7 +84,14 @@ export const columns: ColumnDef<SelectJobApp>[] = [
             )
         },
         cell: ({ row }) => {
-            return <div>{row.original.date.toLocaleDateString("en-US")}</div>
+            return (
+                <Link
+                    href={`${baseUrl}${row.original.id}`}
+                    className="-mx-4 -my-4 block px-4 py-4"
+                >
+                    {row.original.date.toLocaleDateString("en-US")}
+                </Link>
+            )
         },
     },
     {

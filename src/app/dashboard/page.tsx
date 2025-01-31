@@ -1,11 +1,12 @@
 import PageWrapper from "@/components/PageWrapper"
 import { DataTable } from "../../components/DataTable/data-table"
 import { columns } from "../../components/DataTable/columns"
-import AddButton from "@/components/ModalButtons/AddButton"
 import { headers } from "next/headers"
 import { auth } from "@/lib/auth"
 
 import { getUserJobApps } from "@/actions"
+
+import ModalButton from "@/components/ModalButtons/ModalButton"
 
 export default async function Dashboard() {
     const session = await auth.api.getSession({
@@ -21,7 +22,7 @@ export default async function Dashboard() {
                     <h1 className="text-3xl font-semibold">
                         Your Applications
                     </h1>
-                    <AddButton className="h-8 w-28" />
+                    <ModalButton className="h-8 w-28" variant="add" />
                 </div>
 
                 <DataTable
