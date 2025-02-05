@@ -39,12 +39,14 @@ interface Props {
     className?: string
     initialData?: SelectJobApp
     variant: "edit" | "add"
+    userId?: string
 }
 
 export default function ModalButton({
     className,
     initialData,
     variant,
+    userId,
 }: Props) {
     const { toast } = useToast()
     const [isLoading, setLoading] = useState(false)
@@ -68,8 +70,6 @@ export default function ModalButton({
         },
     }
 
-    const session = useSession()
-
     const form = useForm<JobAppFormData>({
         resolver: zodResolver(JobAppFormSchema),
         defaultValues: {
@@ -87,11 +87,11 @@ export default function ModalButton({
 
     async function onSubmit(data: JobAppFormData) {
         await form.trigger()
-        if (session.data && form.formState.isValid) {
+        if (form.formState.isValid) {
             // prettier-ignore
             setLoading(true)
-            if (variant === "add") {
-                await createJobApp(data, session.data?.user.id)
+            if (variant === "add" && userId) {
+                await createJobApp(data, userId)
             } else if (initialData) {
                 await updateJobApps(data, initialData.id, initialData.userId)
             }

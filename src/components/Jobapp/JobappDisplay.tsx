@@ -30,7 +30,7 @@ export default function JobappDisplay({ jobApp }: Props) {
             </div>
 
             {isEditing ? (
-                <JobappForm jobApp={jobApp} />
+                <JobappForm jobApp={jobApp} setEdit={setIsEditing} />
             ) : (
                 <JobappDetails jobApp={jobApp} setEdit={setIsEditing} />
             )}

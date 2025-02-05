@@ -5,11 +5,7 @@ import { JobAppFormData } from "@/components/ModalButtons/JobAppSchema"
 import { revalidatePath } from "next/cache"
 import { db } from "@/db"
 
-import {
-    InsertJobApp,
-    SelectJobApp,
-    job_application,
-} from "@/db/schema/job-application"
+import { InsertJobApp, job_application } from "@/db/schema/job-application"
 import { eq } from "drizzle-orm"
 
 function generateDate(dateString: string): Date {
@@ -39,29 +35,10 @@ export async function createJobApp(formData: JobAppFormData, userId: string) {
     revalidatePath("/dashboard")
 }
 
-export async function getJobApp(jobId: string): Promise<SelectJobApp> {
-    const data = await db
-        .select()
-        .from(job_application)
-        .where(eq(job_application.id, jobId))
-        .limit(1)
-
-    return data[0]
-}
-
 export async function deleteJobApp(id: string) {
     await db.delete(job_application).where(eq(job_application.id, id))
 
     revalidatePath("/dashboard")
-}
-
-export async function getUserJobApps(userId: string): Promise<SelectJobApp[]> {
-    const data = await db
-        .select()
-        .from(job_application)
-        .where(eq(job_application.userId, userId))
-
-    return data
 }
 
 export async function updateJobApps(

@@ -7,13 +7,12 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
-import Link from "next/link"
-
 import { headers } from "next/headers"
 import { auth } from "@/lib/auth"
 import Image from "next/image"
 import SignOutButton from "./SignOutButton"
 import SignInButton from "./SignInButton"
+import HomeButton from "./HomeButton"
 
 export default async function Navbar() {
     const session = await auth.api.getSession({
@@ -22,9 +21,7 @@ export default async function Navbar() {
 
     return (
         <nav className="sticky top-0 flex items-center justify-between border-b border-b-gray-800 bg-background px-[20%] py-4">
-            <Link className="text-xl font-semibold" href="/">
-                Tracker
-            </Link>
+            <HomeButton href={session ? "/dashboard" : "/"} />
 
             {!session ? (
                 <SignInButton>Sign In</SignInButton>
