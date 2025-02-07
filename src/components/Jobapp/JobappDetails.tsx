@@ -1,6 +1,7 @@
 import { SquarePen } from "lucide-react"
 import { Dispatch, SetStateAction } from "react"
 import { SelectJobApp } from "@/db/schema/job-application"
+import Link from "next/link"
 
 interface Props {
     setEdit: Dispatch<SetStateAction<boolean>>
@@ -9,7 +10,7 @@ interface Props {
 
 export default function JobappDetails({ setEdit, jobApp }: Props) {
     return (
-        <div>
+        <>
             <h2 className="mt-5 flex items-center gap-3 text-2xl">
                 <p>Job Details</p>
 
@@ -18,6 +19,7 @@ export default function JobappDetails({ setEdit, jobApp }: Props) {
                     onClick={() => setEdit(true)}
                 />
             </h2>
+
             <div className="mt-3 flex gap-5">
                 <div>
                     <h4 className="text-xl">Location</h4>
@@ -27,12 +29,30 @@ export default function JobappDetails({ setEdit, jobApp }: Props) {
                     <h4 className="text-xl">Status</h4>
                     <p className="text-lg">{jobApp.status}</p>
                 </div>
+                <div>
+                    <h4 className="text-xl">Link</h4>
+                    <Link
+                        href={jobApp.link}
+                        className="text-lg hover:text-blue-600"
+                    >
+                        {jobApp.link ? "Job Posting Link" : "N/A"}
+                    </Link>
+                </div>
             </div>
 
             <div className="mt-3">
                 <h4 className="text-xl">Notes</h4>
-                <p>{!jobApp.notes ? "-" : jobApp.notes}</p>
+                <div>
+                    {!jobApp.notes
+                        ? "-"
+                        : jobApp.notes.split("\n").map((line, index) => (
+                              <p key={index}>
+                                  {line}
+                                  <br />
+                              </p>
+                          ))}
+                </div>
             </div>
-        </div>
+        </>
     )
 }

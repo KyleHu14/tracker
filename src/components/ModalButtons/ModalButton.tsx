@@ -28,7 +28,6 @@ import { Input } from "@/components/ui/input"
 import StatusSelector from "./StatusSelector"
 import { JobAppFormData, JobAppFormSchema } from "./JobAppSchema"
 import { createJobApp, updateJobApps } from "@/actions"
-import { useSession } from "@/lib/auth-client"
 import { useState } from "react"
 import { SelectJobApp } from "@/db/schema/job-application"
 

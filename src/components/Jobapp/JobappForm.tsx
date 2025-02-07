@@ -1,5 +1,3 @@
-"use client"
-
 import { SelectJobApp } from "@/db/schema/job-application"
 import { useToast } from "@/hooks/use-toast"
 import { Dispatch, SetStateAction, useState } from "react"
@@ -19,6 +17,7 @@ import { Input } from "../ui/input"
 import { Textarea } from "../ui/textarea"
 import StatusSelector from "../ModalButtons/StatusSelector"
 import { Button } from "../ui/button"
+import { Loader } from "lucide-react"
 
 interface Props {
     jobApp: SelectJobApp
@@ -45,6 +44,7 @@ export default function JobappForm({ jobApp, setEdit }: Props) {
     })
 
     async function onSubmit(data: JobAppFormData) {
+        // console.log(data)
         await form.trigger()
         if (form.formState.isValid) {
             // prettier-ignore
@@ -59,6 +59,7 @@ export default function JobappForm({ jobApp, setEdit }: Props) {
             })
             form.clearErrors()
             form.reset()
+            setEdit(false)
         }
     }
 
@@ -197,7 +198,12 @@ export default function JobappForm({ jobApp, setEdit }: Props) {
                 />
                 <div className="mt-5 flex gap-3">
                     <Button onClick={() => setEdit(false)}>Cancel</Button>
-                    <Button type="submit">Edit</Button>
+                    <Button type="submit">
+                        Edit
+                        {isLoading && (
+                            <Loader className="h-12 w-12 animate-spin" />
+                        )}
+                    </Button>
                 </div>
             </form>
         </Form>

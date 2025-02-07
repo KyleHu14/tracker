@@ -9,6 +9,8 @@ import { eq } from "drizzle-orm"
 import { db } from "@/db"
 import { job_application } from "@/db/schema/job-application"
 
+import Insights from "@/components/Insights/Insights"
+
 export default async function Dashboard() {
     const session = await auth.api.getSession({
         headers: await headers(), // you need to pass the headers object.
@@ -32,6 +34,8 @@ export default async function Dashboard() {
                         userId={session.user.id}
                     />
                 </div>
+
+                <Insights />
 
                 <DataTable className="mt-8" columns={columns} data={data} />
             </PageWrapper>

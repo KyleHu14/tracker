@@ -26,7 +26,10 @@ export default function JobappDisplay({ jobApp }: Props) {
                         </Link>
                     )}
                 </h1>
-                <h2 className="text-xl text-zinc-700">{jobApp.company}</h2>
+                <h2 className="text-xl text-zinc-400">
+                    {jobApp.company} | Applied :{" "}
+                    {jobApp.date.toLocaleDateString("en-US")}
+                </h2>
             </div>
 
             {isEditing ? (
