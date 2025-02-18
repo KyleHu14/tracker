@@ -31,8 +31,12 @@ export default function TableCellActions({ jobData }: Props) {
                 <DropdownMenuLabel>Actions</DropdownMenuLabel>
                 <DropdownMenuSeparator />
 
-                <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                    <ModalButton variant="edit" initialData={jobData} />
+                <DropdownMenuItem onSelect={(e) => e.preventDefault()} asChild>
+                    <ModalButton
+                        className="hover:bg-accent"
+                        variant="edit"
+                        initialData={jobData}
+                    />
                 </DropdownMenuItem>
 
                 <DropdownMenuItem>
