@@ -85,25 +85,21 @@ export default function ModalButton({
     })
 
     async function onSubmit(data: JobAppFormData) {
-        await form.trigger()
-        if (form.formState.isValid) {
-            // prettier-ignore
-            setLoading(true)
-            if (variant === "add" && userId) {
-                await createJobApp(data, userId)
-            } else if (initialData) {
-                await updateJobApps(data, initialData.id, initialData.userId)
-            }
-
-            setLoading(false)
-            setOpen(false)
-            toast({
-                // title: "Success!",
-                description: formText[variant].toastText,
-            })
-            form.clearErrors()
-            form.reset()
+        setLoading(true)
+        if (variant === "add" && userId) {
+            await createJobApp(data, userId)
+        } else if (initialData) {
+            await updateJobApps(data, initialData.id, initialData.userId)
         }
+
+        setLoading(false)
+        setOpen(false)
+        toast({
+            // title: "Success!",
+            description: formText[variant].toastText,
+        })
+        form.clearErrors()
+        form.reset()
     }
 
     return (

@@ -37,7 +37,7 @@ export default function TableCellActions({ jobData }: Props) {
 
                 <DropdownMenuItem>
                     <button
-                        className="h-full w-full text-left"
+                        className="h-full w-full cursor-pointer text-left"
                         onClick={() => deleteJobApp(jobData.id)}
                     >
                         Delete

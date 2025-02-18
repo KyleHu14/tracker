@@ -19,8 +19,7 @@ import {
     TableRow,
 } from "@/components/ui/table"
 import { Button } from "@/components/ui/button"
-import { useState } from "react"
-import Link from "next/link"
+import { useEffect, useState } from "react"
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
@@ -48,14 +47,15 @@ export function DataTable<TData, TValue>({
         },
         initialState: {
             pagination: { pageSize: 7 },
-            sorting: [
-                {
-                    id: "date",
-                    desc: true, // sort by name in descending order by default
-                },
-            ],
         },
     })
+
+    // This is required due to the table not having server sorting
+    // If this is set above, the initial non hydrated render will have a mismatch
+    // Useeffect allows it so that the sorting is applied after hydration
+    useEffect(() => {
+        setSorting([{ id: "date", desc: true }])
+    }, [])
 
     return (
         <section className={className}>

@@ -44,28 +44,24 @@ export default function JobappForm({ jobApp, setEdit }: Props) {
     })
 
     async function onSubmit(data: JobAppFormData) {
-        // console.log(data)
-        await form.trigger()
-        if (form.formState.isValid) {
-            // prettier-ignore
-            setLoading(true)
+        // prettier-ignore
+        setLoading(true)
 
-            await updateJobApps(data, jobApp.id, jobApp.userId)
+        await updateJobApps(data, jobApp.id, jobApp.userId)
 
-            setLoading(false)
-            toast({
-                // title: "Success!",
-                description: "Edit Success!",
-            })
-            form.clearErrors()
-            form.reset()
-            setEdit(false)
-        }
+        setLoading(false)
+        toast({
+            // title: "Success!",
+            description: "Edit Success!",
+        })
+        form.clearErrors()
+        form.reset()
+        setEdit(false)
     }
 
     return (
         <Form {...form}>
-            <h3 className="mb-3 mt-5 text-xl font-semibold">
+            <h3 className="mt-5 mb-3 text-xl font-semibold">
                 Edit Job Application
             </h3>
             <form
