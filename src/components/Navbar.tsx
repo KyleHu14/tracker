@@ -20,7 +20,7 @@ export default async function Navbar() {
     })
 
     return (
-        <nav className="sticky top-0 flex items-center justify-between border-b border-b-gray-800 bg-background px-[20%] py-4">
+        <nav className="bg-background sticky top-0 flex items-center justify-between border-b border-b-gray-800 px-[20%] py-4">
             <HomeButton href={session ? "/dashboard" : "/"} />
 
             {!session ? (
@@ -44,7 +44,7 @@ export default async function Navbar() {
                         <DropdownMenuLabel>My Account</DropdownMenuLabel>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem className="p-0">
-                            <SignOutButton className="px-2 py-1.5">
+                            <SignOutButton className="cursor-pointer px-2 py-1.5">
                                 Sign Out
                             </SignOutButton>
                         </DropdownMenuItem>
