@@ -23,8 +23,8 @@ export default async function Dashboard() {
             .where(eq(job_application.userId, session.user.id))
 
         return (
-            <PageWrapper className="mt-10">
-                <div className="flex flex-col gap-5">
+            <PageWrapper className="pt-10">
+                <div className="flex items-center justify-between">
                     <h1 className="text-3xl font-semibold">
                         Your Applications
                     </h1>
@@ -35,7 +35,7 @@ export default async function Dashboard() {
                     />
                 </div>
 
-                <Insights />
+                <Insights totalApps={userJobApps.length} />
 
                 <DataTable
                     className="mt-8"

@@ -20,7 +20,7 @@ export default async function Navbar() {
     })
 
     return (
-        <nav className="bg-background sticky top-0 flex items-center justify-between border-b border-b-gray-800 px-[20%] py-4">
+        <nav className="bg-background sticky top-0 flex items-center justify-between border-b border-b-zinc-300 px-[17%] py-4 dark:border-b-zinc-800">
             <HomeButton href={session ? "/dashboard" : "/"} />
 
             {!session ? (

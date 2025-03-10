@@ -4,5 +4,5 @@ interface Props {
 }
 
 export default function PageWrapper({ children, className }: Props) {
-    return <main className={`mx-[20%] ${className}`}>{children}</main>
+    return <main className={`mx-[17%] ${className}`}>{children}</main>
 }

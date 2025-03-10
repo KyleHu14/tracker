@@ -31,7 +31,7 @@ import { createJobApp, updateJobApps } from "@/actions"
 import { useState } from "react"
 import { SelectJobApp } from "@/db/schema/job-application"
 
-import { Loader } from "lucide-react"
+import { Loader, PlusCircle } from "lucide-react"
 import { Textarea } from "../ui/textarea"
 
 interface Props {
@@ -63,7 +63,7 @@ export default function ModalButton({
             title: "Add a Job Application",
             description:
                 "Track a job application by filling out its information below.",
-            triggerText: "Add",
+            triggerText: "Add Application",
             submitText: "Create",
             toastText: "Created a job application!",
         },
@@ -106,7 +106,10 @@ export default function ModalButton({
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger className={className} asChild>
                 {variant === "add" ? (
-                    <Button>{formText[variant].triggerText}</Button>
+                    <Button className="flex w-fit gap-3">
+                        <PlusCircle />
+                        <span>{formText[variant].triggerText}</span>
+                    </Button>
                 ) : (
                     <p className="w-full cursor-pointer">
                         {formText[variant].triggerText}
