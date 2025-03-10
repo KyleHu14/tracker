@@ -131,6 +131,7 @@ export default function ModalButton({
                             id="add-job-form"
                             onSubmit={form.handleSubmit(onSubmit)}
                             className="space-y-6"
+                            autoComplete="off"
                         >
                             <FormField
                                 control={form.control}

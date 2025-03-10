@@ -17,7 +17,7 @@ export default async function Dashboard() {
     })
 
     if (session && session?.user) {
-        const data = await db
+        const userJobApps = await db
             .select()
             .from(job_application)
             .where(eq(job_application.userId, session.user.id))
@@ -37,7 +37,11 @@ export default async function Dashboard() {
 
                 <Insights />
 
-                <DataTable className="mt-8" columns={columns} data={data} />
+                <DataTable
+                    className="mt-8"
+                    columns={columns}
+                    data={userJobApps}
+                />
             </PageWrapper>
         )
     }
