@@ -117,7 +117,7 @@ export default function ModalButton({
                 )}
             </DialogTrigger>
             <DialogContent
-                className="max-h-[98%] sm:max-w-[425px]"
+                className=""
                 onClick={(e) => e.stopPropagation()}
                 onKeyDown={(e) => e.stopPropagation()}
                 onPointerMove={(e) => e.stopPropagation()}
@@ -128,24 +128,43 @@ export default function ModalButton({
                         {formText[variant].description}
                     </DialogDescription>
                 </DialogHeader>
-                <div className="overflow-y-auto p-3">
-                    <Form {...form}>
-                        <form
-                            id="add-job-form"
-                            onSubmit={form.handleSubmit(onSubmit)}
-                            className="space-y-6"
-                            autoComplete="off"
-                        >
+
+                <Form {...form}>
+                    <form
+                        id="add-job-form"
+                        onSubmit={form.handleSubmit(onSubmit)}
+                        className="space-y-6"
+                        autoComplete="off"
+                    >
+                        <FormField
+                            control={form.control}
+                            name="title"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Role Title</FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            required
+                                            placeholder="SE Intern"
+                                            {...field}
+                                        />
+                                    </FormControl>
+
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <div className="flex gap-3">
                             <FormField
                                 control={form.control}
-                                name="title"
+                                name="company"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Role Title</FormLabel>
+                                        <FormLabel>Company</FormLabel>
                                         <FormControl>
                                             <Input
                                                 required
-                                                placeholder="SE Intern"
+                                                placeholder="Amazon"
                                                 {...field}
                                             />
                                         </FormControl>
@@ -154,74 +173,16 @@ export default function ModalButton({
                                     </FormItem>
                                 )}
                             />
-                            <div className="flex gap-3">
-                                <FormField
-                                    control={form.control}
-                                    name="company"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>Company</FormLabel>
-                                            <FormControl>
-                                                <Input
-                                                    required
-                                                    placeholder="Amazon"
-                                                    {...field}
-                                                />
-                                            </FormControl>
-
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                                <FormField
-                                    control={form.control}
-                                    name="location"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>
-                                                Office Location
-                                            </FormLabel>
-                                            <FormControl>
-                                                <Input
-                                                    required
-                                                    placeholder="California"
-                                                    {...field}
-                                                />
-                                            </FormControl>
-
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                            </div>
-
                             <FormField
                                 control={form.control}
-                                name="status"
+                                name="location"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Status</FormLabel>
-                                        <FormControl>
-                                            <StatusSelector
-                                                value={field.value}
-                                                onChange={field.onChange}
-                                            />
-                                        </FormControl>
-
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
-                            <FormField
-                                control={form.control}
-                                name="date"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>Date</FormLabel>
+                                        <FormLabel>Office Location</FormLabel>
                                         <FormControl>
                                             <Input
                                                 required
-                                                type="date"
+                                                placeholder="California"
                                                 {...field}
                                             />
                                         </FormControl>
@@ -230,45 +191,82 @@ export default function ModalButton({
                                     </FormItem>
                                 )}
                             />
-                            <FormField
-                                control={form.control}
-                                name="link"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>Link</FormLabel>
-                                        <FormControl>
-                                            <Input
-                                                type="url"
-                                                placeholder="jobboard.com"
-                                                {...field}
-                                            />
-                                        </FormControl>
+                        </div>
 
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
+                        <FormField
+                            control={form.control}
+                            name="status"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Status</FormLabel>
+                                    <FormControl>
+                                        <StatusSelector
+                                            value={field.value}
+                                            onChange={field.onChange}
+                                        />
+                                    </FormControl>
 
-                            <FormField
-                                control={form.control}
-                                name="notes"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>Notes</FormLabel>
-                                        <FormControl>
-                                            <Textarea
-                                                placeholder="Notes, login info, anything!"
-                                                {...field}
-                                            />
-                                        </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="date"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Date</FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            required
+                                            type="date"
+                                            {...field}
+                                        />
+                                    </FormControl>
 
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
-                        </form>
-                    </Form>
-                </div>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="link"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Link</FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            type="url"
+                                            placeholder="jobboard.com"
+                                            {...field}
+                                        />
+                                    </FormControl>
+
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+
+                        <FormField
+                            control={form.control}
+                            name="notes"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Notes</FormLabel>
+                                    <FormControl>
+                                        <Textarea
+                                            placeholder="Notes, login info, anything!"
+                                            {...field}
+                                        />
+                                    </FormControl>
+
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                    </form>
+                </Form>
+
                 <DialogFooter>
                     <Button form="add-job-form" type="submit">
                         {formText[variant].submitText}

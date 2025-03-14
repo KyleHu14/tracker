@@ -9,9 +9,17 @@ import {
 
 interface Props {
     totalApps: number
+    interviewCount: number
+    pendingCount: number
+    rejectedAndGhostedCount: number
 }
 
-export default function Insights({ totalApps }: Props) {
+export default function Insights({
+    totalApps,
+    interviewCount,
+    pendingCount,
+    rejectedAndGhostedCount,
+}: Props) {
     return (
         <div className="mt-5">
             <h2 className="text-2xl">Insights</h2>
@@ -33,7 +41,9 @@ export default function Insights({ totalApps }: Props) {
                 <Card className="dark:bg-card/50 w-full">
                     <CardHeader>
                         <CardDescription>Interviews</CardDescription>
-                        <CardTitle className="text-3xl">{totalApps}</CardTitle>
+                        <CardTitle className="text-3xl">
+                            {interviewCount}
+                        </CardTitle>
                     </CardHeader>
 
                     <CardContent>
@@ -47,7 +57,9 @@ export default function Insights({ totalApps }: Props) {
                 <Card className="dark:bg-card/50 w-full">
                     <CardHeader>
                         <CardDescription>Pending</CardDescription>
-                        <CardTitle className="text-3xl">{totalApps}</CardTitle>
+                        <CardTitle className="text-3xl">
+                            {pendingCount}
+                        </CardTitle>
                     </CardHeader>
 
                     <CardContent>
@@ -60,7 +72,9 @@ export default function Insights({ totalApps }: Props) {
                 <Card className="dark:bg-card/50 w-full">
                     <CardHeader>
                         <CardDescription>Rejected/Ghosted</CardDescription>
-                        <CardTitle className="text-3xl">{totalApps}</CardTitle>
+                        <CardTitle className="text-3xl">
+                            {rejectedAndGhostedCount}
+                        </CardTitle>
                     </CardHeader>
 
                     <CardContent>

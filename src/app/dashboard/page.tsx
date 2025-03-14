@@ -5,7 +5,7 @@ import { headers } from "next/headers"
 import { auth } from "@/lib/auth"
 
 import ModalButton from "@/components/ModalButtons/ModalButton"
-import { eq } from "drizzle-orm"
+import { eq, or, and } from "drizzle-orm"
 import { db } from "@/db"
 import { job_application } from "@/db/schema/job-application"
 
@@ -22,6 +22,39 @@ export default async function Dashboard() {
             .from(job_application)
             .where(eq(job_application.userId, session.user.id))
 
+        const interviewCount = await db
+            .select()
+            .from(job_application)
+            .where(
+                and(
+                    eq(job_application.userId, session.user.id),
+                    eq(job_application.status, "interview"),
+                ),
+            )
+
+        const pendingCount = await db
+            .select()
+            .from(job_application)
+            .where(
+                and(
+                    eq(job_application.userId, session.user.id),
+                    eq(job_application.status, "pending"),
+                ),
+            )
+
+        const rejectedAndGhostedCount = await db
+            .select()
+            .from(job_application)
+            .where(
+                and(
+                    eq(job_application.userId, session.user.id),
+                    or(
+                        eq(job_application.status, "rejected"),
+                        eq(job_application.status, "ghosted"),
+                    ),
+                ),
+            )
+
         return (
             <PageWrapper className="pt-10">
                 <div className="flex items-center justify-between">
@@ -35,7 +68,12 @@ export default async function Dashboard() {
                     />
                 </div>
 
-                <Insights totalApps={userJobApps.length} />
+                <Insights
+                    totalApps={userJobApps.length}
+                    interviewCount={interviewCount.length}
+                    pendingCount={pendingCount.length}
+                    rejectedAndGhostedCount={rejectedAndGhostedCount.length}
+                />
 
                 <DataTable
                     className="mt-8"
