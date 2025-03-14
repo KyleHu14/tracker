@@ -34,6 +34,9 @@ import { SelectJobApp } from "@/db/schema/job-application"
 import { Loader, PlusCircle } from "lucide-react"
 import { Textarea } from "../ui/textarea"
 
+// Add a CSS class for all inputs in this component
+const inputClass = "dark:bg-slate-950"
+
 interface Props {
     className?: string
     initialData?: SelectJobApp
@@ -106,7 +109,7 @@ export default function ModalButton({
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger className={className} asChild>
                 {variant === "add" ? (
-                    <Button className="flex w-fit gap-3">
+                    <Button className={`${className} flex w-fit gap-3`}>
                         <PlusCircle />
                         <span>{formText[variant].triggerText}</span>
                     </Button>
@@ -117,54 +120,117 @@ export default function ModalButton({
                 )}
             </DialogTrigger>
             <DialogContent
-                className=""
+                className="flex max-h-[90vh] flex-col bg-gradient-to-br sm:max-w-[425px] dark:from-slate-950 dark:via-slate-900 dark:to-slate-950"
                 onClick={(e) => e.stopPropagation()}
                 onKeyDown={(e) => e.stopPropagation()}
                 onPointerMove={(e) => e.stopPropagation()}
             >
-                <DialogHeader>
+                <DialogHeader className="pb-4">
                     <DialogTitle>{formText[variant].title}</DialogTitle>
                     <DialogDescription>
                         {formText[variant].description}
                     </DialogDescription>
                 </DialogHeader>
 
-                <Form {...form}>
-                    <form
-                        id="add-job-form"
-                        onSubmit={form.handleSubmit(onSubmit)}
-                        className="space-y-6"
-                        autoComplete="off"
-                    >
-                        <FormField
-                            control={form.control}
-                            name="title"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Role Title</FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            required
-                                            placeholder="SE Intern"
-                                            {...field}
-                                        />
-                                    </FormControl>
-
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <div className="flex gap-3">
+                <div className="flex-1 overflow-y-auto p-2">
+                    <Form {...form}>
+                        <form
+                            id="add-job-form"
+                            onSubmit={form.handleSubmit(onSubmit)}
+                            className="space-y-6"
+                            autoComplete="off"
+                        >
                             <FormField
                                 control={form.control}
-                                name="company"
+                                name="title"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Company</FormLabel>
+                                        <FormLabel>Role Title</FormLabel>
                                         <FormControl>
                                             <Input
                                                 required
-                                                placeholder="Amazon"
+                                                placeholder="SE Intern"
+                                                className={inputClass}
+                                                {...field}
+                                            />
+                                        </FormControl>
+
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <div className="flex gap-3">
+                                <FormField
+                                    control={form.control}
+                                    name="company"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>Company</FormLabel>
+                                            <FormControl>
+                                                <Input
+                                                    required
+                                                    placeholder="Amazon"
+                                                    className={inputClass}
+                                                    {...field}
+                                                />
+                                            </FormControl>
+
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                                <FormField
+                                    control={form.control}
+                                    name="location"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>
+                                                Office Location
+                                            </FormLabel>
+                                            <FormControl>
+                                                <Input
+                                                    required
+                                                    placeholder="California"
+                                                    className={inputClass}
+                                                    {...field}
+                                                />
+                                            </FormControl>
+
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                            </div>
+
+                            <FormField
+                                control={form.control}
+                                name="status"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Status</FormLabel>
+                                        <FormControl>
+                                            <StatusSelector
+                                                value={field.value}
+                                                onChange={field.onChange}
+                                                className={inputClass}
+                                            />
+                                        </FormControl>
+
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="date"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Date</FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                required
+                                                type="date"
+                                                className={inputClass}
                                                 {...field}
                                             />
                                         </FormControl>
@@ -175,14 +241,15 @@ export default function ModalButton({
                             />
                             <FormField
                                 control={form.control}
-                                name="location"
+                                name="link"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Office Location</FormLabel>
+                                        <FormLabel>Link</FormLabel>
                                         <FormControl>
                                             <Input
-                                                required
-                                                placeholder="California"
+                                                type="url"
+                                                placeholder="jobboard.com"
+                                                className={inputClass}
                                                 {...field}
                                             />
                                         </FormControl>
@@ -191,83 +258,30 @@ export default function ModalButton({
                                     </FormItem>
                                 )}
                             />
-                        </div>
 
-                        <FormField
-                            control={form.control}
-                            name="status"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Status</FormLabel>
-                                    <FormControl>
-                                        <StatusSelector
-                                            value={field.value}
-                                            onChange={field.onChange}
-                                        />
-                                    </FormControl>
+                            <FormField
+                                control={form.control}
+                                name="notes"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Notes</FormLabel>
+                                        <FormControl>
+                                            <Textarea
+                                                className={inputClass}
+                                                placeholder="Notes, login info, anything!"
+                                                {...field}
+                                            />
+                                        </FormControl>
 
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="date"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Date</FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            required
-                                            type="date"
-                                            {...field}
-                                        />
-                                    </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                        </form>
+                    </Form>
+                </div>
 
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="link"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Link</FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            type="url"
-                                            placeholder="jobboard.com"
-                                            {...field}
-                                        />
-                                    </FormControl>
-
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-
-                        <FormField
-                            control={form.control}
-                            name="notes"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Notes</FormLabel>
-                                    <FormControl>
-                                        <Textarea
-                                            placeholder="Notes, login info, anything!"
-                                            {...field}
-                                        />
-                                    </FormControl>
-
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                    </form>
-                </Form>
-
-                <DialogFooter>
+                <DialogFooter className="mt-2 pt-4">
                     <Button form="add-job-form" type="submit">
                         {formText[variant].submitText}
                         {isLoading && (

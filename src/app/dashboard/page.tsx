@@ -57,12 +57,12 @@ export default async function Dashboard() {
 
         return (
             <PageWrapper className="pt-10">
-                <div className="flex items-center justify-between">
+                <div className="flex flex-col items-center justify-between md:flex-row">
                     <h1 className="text-3xl font-semibold">
                         Your Applications
                     </h1>
                     <ModalButton
-                        className="h-8 w-28"
+                        className="!hidden h-8 w-28 md:block"
                         variant="add"
                         userId={session.user.id}
                     />

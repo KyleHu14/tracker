@@ -33,7 +33,7 @@ export default function RootLayout({
         <html lang="en" suppressHydrationWarning>
             <head />
             <body
-                className={`${geistSans.variable} ${geistMono.variable} overflow-hidden antialiased`}
+                className={`${geistSans.variable} ${geistMono.variable} antialiased md:overflow-y-hidden`}
             >
                 <ThemeProvider
                     attribute="class"
@@ -43,7 +43,7 @@ export default function RootLayout({
                 >
                     <Navbar />
 
-                    <div className="min-h-[100dvh] bg-gradient-to-br from-blue-50 via-slate-300 to-blue-50 bg-fixed dark:from-slate-950 dark:via-slate-900 dark:to-slate-950">
+                    <div className="min-h-[100dvh] bg-slate-100 bg-gradient-to-br bg-fixed dark:from-slate-950 dark:via-slate-900 dark:to-slate-950">
                         {children}
                     </div>
                     <SpeedInsights />

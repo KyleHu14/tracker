@@ -24,7 +24,7 @@ export default function Insights({
         <div className="mt-5">
             <h2 className="text-2xl">Insights</h2>
 
-            <div className="mt-5 flex gap-5">
+            <div className="mt-5 grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-4">
                 <Card className="dark:bg-card/50 w-full">
                     <CardHeader>
                         <CardDescription>Total Applications</CardDescription>

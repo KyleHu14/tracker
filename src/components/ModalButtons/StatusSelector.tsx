@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/select"
 
 interface Props {
+    className?: string
     value:
         | "pending"
         | "interview"
@@ -21,10 +22,10 @@ interface Props {
     onChange: (value: string) => void
 }
 
-export default function StatusSelector({ value, onChange }: Props) {
+export default function StatusSelector({ value, onChange, className }: Props) {
     return (
         <Select onValueChange={onChange} defaultValue={value}>
-            <SelectTrigger>
+            <SelectTrigger className={className}>
                 <SelectValue placeholder="Select Status" />
             </SelectTrigger>
             <SelectContent>
