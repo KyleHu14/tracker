@@ -13,6 +13,7 @@ import Image from "next/image"
 import SignOutButton from "./SignOutButton"
 import SignInButton from "./SignInButton"
 import HomeButton from "./HomeButton"
+import Link from "next/link"
 
 export default async function Navbar() {
     const session = await auth.api.getSession({
@@ -21,7 +22,12 @@ export default async function Navbar() {
 
     return (
         <nav className="bg-background sticky top-0 flex items-center justify-between border-b border-b-zinc-300 px-[8%] py-4 md:px-[17%] dark:border-b-zinc-800">
-            <HomeButton href={session ? "/dashboard" : "/"} />
+            <div className="flex items-center gap-5">
+                <HomeButton href={session ? "/dashboard" : "/"} />
+                <Link className="hover:text-blue-400" href="/changelog">
+                    Changelog
+                </Link>
+            </div>
 
             {!session ? (
                 <SignInButton>Sign In</SignInButton>
