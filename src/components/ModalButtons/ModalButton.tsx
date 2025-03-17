@@ -34,9 +34,6 @@ import { SelectJobApp } from "@/db/schema/job-application"
 import { Loader, PlusCircle } from "lucide-react"
 import { Textarea } from "../ui/textarea"
 
-// Add a CSS class for all inputs in this component
-const inputClass = "dark:bg-slate-950"
-
 interface Props {
     className?: string
     initialData?: SelectJobApp
