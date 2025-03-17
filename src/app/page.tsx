@@ -8,13 +8,13 @@ import PageWrapper from "@/components/PageWrapper"
 
 export default function Home() {
     return (
-        <PageWrapper className="flex h-[70svh] flex-col items-center justify-center gap-6 bg-background p-6 md:p-10">
+        <PageWrapper className="flex h-[70svh] flex-col items-center justify-center gap-6 sm:p-6 md:p-10">
             <div className="flex w-full max-w-sm flex-col justify-center gap-6">
                 <Link
                     href="/"
                     className="flex items-center gap-2 self-center font-medium"
                 >
-                    <div className="flex h-6 w-6 items-center justify-center rounded-md bg-primary text-primary-foreground">
+                    <div className="bg-primary text-primary-foreground flex h-6 w-6 items-center justify-center rounded-md">
                         <ClipboardCheck className="size-4" />
                     </div>
                     Tracker

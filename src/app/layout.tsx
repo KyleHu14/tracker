@@ -33,7 +33,7 @@ export default function RootLayout({
         <html lang="en" suppressHydrationWarning>
             <head />
             <body
-                className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+                className={`${geistSans.variable} ${geistMono.variable} antialiased md:overflow-y-hidden`}
             >
                 <ThemeProvider
                     attribute="class"
@@ -42,7 +42,10 @@ export default function RootLayout({
                     disableTransitionOnChange
                 >
                     <Navbar />
-                    {children}
+
+                    <div className="min-h-[100dvh] bg-slate-100 bg-gradient-to-br bg-fixed dark:from-slate-950 dark:via-slate-900 dark:to-slate-950">
+                        {children}
+                    </div>
                     <SpeedInsights />
                 </ThemeProvider>
                 <Toaster />

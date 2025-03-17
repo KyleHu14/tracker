@@ -61,7 +61,7 @@ export function DataTable<TData, TValue>({
         <section className={className}>
             <div className="rounded-md border">
                 <Table>
-                    <TableHeader>
+                    <TableHeader className="bg-muted/50">
                         {table.getHeaderGroups().map((headerGroup) => (
                             <TableRow key={headerGroup.id}>
                                 {headerGroup.headers.map((header) => {
@@ -80,10 +80,11 @@ export function DataTable<TData, TValue>({
                             </TableRow>
                         ))}
                     </TableHeader>
-                    <TableBody>
+                    <TableBody className="bg-card dark:bg-card/50">
                         {table.getRowModel().rows?.length ? (
                             table.getRowModel().rows.map((row) => (
                                 <TableRow
+                                    className="hover:bg-muted/50"
                                     key={row.id}
                                     data-state={
                                         row.getIsSelected() && "selected"
