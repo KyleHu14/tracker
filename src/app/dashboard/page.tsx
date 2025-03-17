@@ -10,6 +10,7 @@ import { db } from "@/db"
 import { job_application } from "@/db/schema/job-application"
 
 import Insights from "@/components/Insights/Insights"
+import PaginatedCardGrid from "@/components/PaginatedCardGrid"
 
 export default async function Dashboard() {
     const session = await auth.api.getSession({
@@ -56,17 +57,8 @@ export default async function Dashboard() {
             )
 
         return (
-            <PageWrapper className="pt-10">
-                <div className="flex flex-col items-center justify-between md:flex-row">
-                    <h1 className="text-3xl font-semibold">
-                        Your Applications
-                    </h1>
-                    <ModalButton
-                        className="!hidden h-8 w-28 md:block"
-                        variant="add"
-                        userId={session.user.id}
-                    />
-                </div>
+            <PageWrapper>
+                <h1 className="text-3xl font-semibold">Your Dashboard</h1>
 
                 <Insights
                     totalApps={userJobApps.length}
@@ -75,11 +67,22 @@ export default async function Dashboard() {
                     rejectedAndGhostedCount={rejectedAndGhostedCount.length}
                 />
 
+                <div className="mt-8 flex flex-col gap-5 md:flex-row md:items-center md:justify-between md:gap-0">
+                    <h2 className="text-2xl">Job Applications</h2>
+                    <ModalButton
+                        className="flex h-8 w-28"
+                        variant="add"
+                        userId={session.user.id}
+                    />
+                </div>
+
                 <DataTable
-                    className="mt-8"
+                    className="mt-8 hidden lg:block"
                     columns={columns}
                     data={userJobApps}
                 />
+
+                <PaginatedCardGrid jobs={userJobApps} itemsPerPage={5} />
             </PageWrapper>
         )
     }

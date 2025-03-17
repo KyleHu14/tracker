@@ -1,12 +1,17 @@
 "use client"
 
-import { Link as LucideLink } from "lucide-react"
+import { ArrowLeft, Edit2, Trash2 } from "lucide-react"
 import { SelectJobApp } from "@/db/schema/job-application"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 import { useState } from "react"
+import { useToast } from "@/hooks/use-toast"
+import { deleteJobApp } from "@/actions"
 
 import JobappDetails from "./JobappDetails"
 import JobappForm from "./JobappForm"
+
+import { Button } from "../ui/button"
 
 interface Props {
     jobApp: SelectJobApp
@@ -14,22 +19,76 @@ interface Props {
 
 export default function JobappDisplay({ jobApp }: Props) {
     const [isEditing, setIsEditing] = useState(false)
+    const [isDeleting, setIsDeleting] = useState(false)
+    const router = useRouter()
+    const { toast } = useToast()
+
+    async function handleDelete() {
+        try {
+            setIsDeleting(true)
+            await deleteJobApp(jobApp.id)
+            toast({
+                title: "Job application deleted successfully",
+                description: "Redirecting to dashboard..",
+            })
+            router.push("/dashboard")
+        } catch (error: unknown) {
+            if (error instanceof Error) {
+                toast({
+                    variant: "destructive",
+                    description: `Something went wrong. ${error.message}`,
+                })
+            } else {
+                toast({
+                    variant: "destructive",
+                    description: "Something went wrong. Please try again.",
+                })
+            }
+        } finally {
+            setIsDeleting(false)
+        }
+    }
 
     return (
-        <>
-            <div className="border-b pb-2">
-                <h1 className="flex items-center gap-3 text-3xl font-medium">
-                    <p>{jobApp.title}</p>
-                    {jobApp.link && (
-                        <Link href={jobApp.link}>
-                            <LucideLink className="hover:text-blue-700" />
+        <div className="mx-auto max-w-[800px]">
+            <div className="mb-6 flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                    <Button variant="ghost" size="icon" asChild>
+                        <Link href="/dashboard">
+                            <ArrowLeft className="size-4" />
+                            <span className="sr-only">
+                                Back to applications
+                            </span>
                         </Link>
-                    )}
-                </h1>
-                <h2 className="text-xl text-zinc-400">
-                    {jobApp.company} | Applied :{" "}
-                    {jobApp.date.toLocaleDateString("en-US")}
-                </h2>
+                    </Button>
+                    <h1 className="text-2xl font-bold">Application Details</h1>
+                </div>
+
+                <div className="flex gap-2">
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => setIsEditing(!isEditing)}
+                    >
+                        {!isEditing ? (
+                            <>
+                                <Edit2 className="size-4" />
+                                Edit
+                            </>
+                        ) : (
+                            <>Cancel edit</>
+                        )}
+                    </Button>
+                    <Button
+                        variant="destructive"
+                        size="sm"
+                        onClick={handleDelete}
+                        disabled={isDeleting}
+                    >
+                        <Trash2 className="size-4" />
+                        {isDeleting ? "Deleting..." : "Delete"}
+                    </Button>
+                </div>
             </div>
 
             {isEditing ? (
@@ -37,6 +96,6 @@ export default function JobappDisplay({ jobApp }: Props) {
             ) : (
                 <JobappDetails jobApp={jobApp} setEdit={setIsEditing} />
             )}
-        </>
+        </div>
     )
 }

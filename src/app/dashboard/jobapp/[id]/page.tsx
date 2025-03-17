@@ -17,7 +17,7 @@ export default async function JobApp({
         .limit(1)
 
     return (
-        <PageWrapper className="mt-10">
+        <PageWrapper>
             <JobappDisplay jobApp={data[0]} />
         </PageWrapper>
     )

@@ -18,6 +18,7 @@ import { Textarea } from "../ui/textarea"
 import StatusSelector from "../ModalButtons/StatusSelector"
 import { Button } from "../ui/button"
 import { Loader } from "lucide-react"
+import { Card, CardContent } from "../ui/card"
 
 interface Props {
     jobApp: SelectJobApp
@@ -60,148 +61,173 @@ export default function JobappForm({ jobApp, setEdit }: Props) {
     }
 
     return (
-        <Form {...form}>
-            <h3 className="mt-5 mb-3 text-xl font-semibold">
-                Edit Job Application
-            </h3>
-            <form
-                className="flex flex-col gap-4"
-                onSubmit={form.handleSubmit(onSubmit)}
-            >
-                <FormField
-                    control={form.control}
-                    name="title"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Role Title</FormLabel>
-                            <FormControl>
-                                <Input
-                                    required
-                                    placeholder="SE Intern"
-                                    {...field}
-                                />
-                            </FormControl>
+        <Card>
+            <CardContent className="p-6">
+                <Form {...form}>
+                    <form
+                        className="flex flex-col gap-4"
+                        onSubmit={form.handleSubmit(onSubmit)}
+                    >
+                        {/* ROW 1 : Title & Status */}
+                        <div className="flex justify-between">
+                            <FormField
+                                control={form.control}
+                                name="title"
+                                render={({ field }) => (
+                                    <FormItem className="max-w-[250px]">
+                                        <FormLabel>Role Title</FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                required
+                                                placeholder="SE Intern"
+                                                {...field}
+                                            />
+                                        </FormControl>
 
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-                <div className="flex gap-3">
-                    <FormField
-                        control={form.control}
-                        name="company"
-                        render={({ field }) => (
-                            <FormItem className="flex-1">
-                                <FormLabel>Company</FormLabel>
-                                <FormControl>
-                                    <Input
-                                        required
-                                        placeholder="Amazon"
-                                        {...field}
-                                    />
-                                </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
 
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-                    <FormField
-                        control={form.control}
-                        name="location"
-                        render={({ field }) => (
-                            <FormItem className="flex-1">
-                                <FormLabel>Office Location</FormLabel>
-                                <FormControl>
-                                    <Input
-                                        required
-                                        placeholder="California"
-                                        {...field}
-                                    />
-                                </FormControl>
+                            <FormField
+                                control={form.control}
+                                name="status"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Status</FormLabel>
+                                        <FormControl>
+                                            <StatusSelector
+                                                value={field.value}
+                                                onChange={field.onChange}
+                                            />
+                                        </FormControl>
 
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-                </div>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
 
-                <FormField
-                    control={form.control}
-                    name="status"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Status</FormLabel>
-                            <FormControl>
-                                <StatusSelector
-                                    value={field.value}
-                                    onChange={field.onChange}
-                                />
-                            </FormControl>
+                        {/* ROW 2 : Company */}
+                        <div>
+                            <FormField
+                                control={form.control}
+                                name="company"
+                                render={({ field }) => (
+                                    <FormItem className="max-w-[216px]">
+                                        <FormLabel>Company</FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                required
+                                                placeholder="Amazon"
+                                                {...field}
+                                            />
+                                        </FormControl>
 
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-                <FormField
-                    control={form.control}
-                    name="date"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Date</FormLabel>
-                            <FormControl>
-                                <Input required type="date" {...field} />
-                            </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
 
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-                <FormField
-                    control={form.control}
-                    name="link"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Link</FormLabel>
-                            <FormControl>
-                                <Input
-                                    type="url"
-                                    placeholder="jobboard.com"
-                                    {...field}
-                                />
-                            </FormControl>
+                        {/* ROW 3 : Locaion & Date & Link */}
+                        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+                            <FormField
+                                control={form.control}
+                                name="location"
+                                render={({ field }) => (
+                                    <FormItem className="flex-1">
+                                        <FormLabel>Office Location</FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                required
+                                                placeholder="California"
+                                                {...field}
+                                            />
+                                        </FormControl>
 
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
 
-                <FormField
-                    control={form.control}
-                    name="notes"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Notes</FormLabel>
-                            <FormControl>
-                                <Textarea
-                                    placeholder="Notes, login info, anything!"
-                                    {...field}
-                                />
-                            </FormControl>
+                            <FormField
+                                control={form.control}
+                                name="date"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Date</FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                required
+                                                type="date"
+                                                {...field}
+                                            />
+                                        </FormControl>
 
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-                <div className="mt-5 flex gap-3">
-                    <Button onClick={() => setEdit(false)}>Cancel</Button>
-                    <Button type="submit">
-                        Edit
-                        {isLoading && (
-                            <Loader className="h-12 w-12 animate-spin" />
-                        )}
-                    </Button>
-                </div>
-            </form>
-        </Form>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+
+                            <FormField
+                                control={form.control}
+                                name="link"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Link</FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                type="url"
+                                                placeholder="jobboard.com"
+                                                {...field}
+                                            />
+                                        </FormControl>
+
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
+
+                        <FormField
+                            control={form.control}
+                            name="notes"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Notes</FormLabel>
+                                    <FormControl>
+                                        <Textarea
+                                            className="min-h-[150px]"
+                                            placeholder="Notes, login info, anything!"
+                                            {...field}
+                                        />
+                                    </FormControl>
+
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <div className="mt-5 flex justify-end gap-3">
+                            <Button
+                                variant="destructive"
+                                onClick={() => setEdit(false)}
+                            >
+                                Cancel
+                            </Button>
+                            <Button
+                                type="submit"
+                                className="bg-blue-500 hover:bg-blue-600"
+                            >
+                                Save Changes
+                                {isLoading && (
+                                    <Loader className="h-12 w-12 animate-spin" />
+                                )}
+                            </Button>
+                        </div>
+                    </form>
+                </Form>
+            </CardContent>
+        </Card>
     )
 }

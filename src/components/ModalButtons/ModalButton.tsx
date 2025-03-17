@@ -125,8 +125,10 @@ export default function ModalButton({
                 onKeyDown={(e) => e.stopPropagation()}
                 onPointerMove={(e) => e.stopPropagation()}
             >
-                <DialogHeader className="pb-4">
-                    <DialogTitle>{formText[variant].title}</DialogTitle>
+                <DialogHeader className="pb-0 lg:pb-4">
+                    <DialogTitle className="text-xl">
+                        {formText[variant].title}
+                    </DialogTitle>
                     <DialogDescription>
                         {formText[variant].description}
                     </DialogDescription>
@@ -164,7 +166,7 @@ export default function ModalButton({
                                     control={form.control}
                                     name="company"
                                     render={({ field }) => (
-                                        <FormItem>
+                                        <FormItem className="flex flex-1 flex-col">
                                             <FormLabel>Company</FormLabel>
                                             <FormControl>
                                                 <Input
@@ -174,7 +176,6 @@ export default function ModalButton({
                                                     {...field}
                                                 />
                                             </FormControl>
-
                                             <FormMessage />
                                         </FormItem>
                                     )}
@@ -183,7 +184,7 @@ export default function ModalButton({
                                     control={form.control}
                                     name="location"
                                     render={({ field }) => (
-                                        <FormItem>
+                                        <FormItem className="flex flex-1 flex-col">
                                             <FormLabel>
                                                 Office Location
                                             </FormLabel>
@@ -195,7 +196,6 @@ export default function ModalButton({
                                                     {...field}
                                                 />
                                             </FormControl>
-
                                             <FormMessage />
                                         </FormItem>
                                     )}
